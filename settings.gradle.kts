@@ -21,7 +21,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "Sword"
 include(":app")
-include(":core")
 include(":data")
 include(":domain")
 include(":cats")
+include(":common")

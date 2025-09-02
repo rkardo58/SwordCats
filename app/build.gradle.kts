@@ -50,10 +50,17 @@ kotlin {
 }
 
 dependencies {
-    implementation(project(":core"))
+    implementation(project(":data"))
+    implementation(project(":common"))
+    implementation(project(":cats"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-
+    implementation(libs.androidx.activity.compose)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.material3)
 
     implementation(libs.hilt)
     implementation(libs.hilt.navigation)
@@ -63,7 +70,6 @@ dependencies {
 
     implementation(libs.navigation)
     implementation(libs.jakewharton.timber)
-
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

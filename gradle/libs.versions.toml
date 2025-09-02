@@ -13,6 +13,7 @@ navigation = "2.9.3"
 hiltWork = "1.2.0"
 hilt = "2.57.1"
 hiltNavigation = "1.2.0"
+coil = "3.3.0"
 
 room = "2.7.2"
 retrofit = "3.0.0"
@@ -20,8 +21,8 @@ serialization = "1.9.0"
 
 ktlint = "13.1.0"
 jakewhartonTimber = "5.0.1"
-appcompat = "1.6.1"
-material = "1.10.0"
+appcompat = "1.7.1"
+material = "1.12.0"
 runtimeAndroid = "1.9.0"
 
 [libraries]
@@ -46,6 +47,9 @@ hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", v
 hilt-navigation = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigation" }
 androidx-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hiltWork" }
 androidx-hilt-work = { module = "androidx.hilt:hilt-work", version.ref = "hiltWork" }
+
+coil = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
+coil-network = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", version.ref = "coil" }
 
 serialization-converter = { group = "com.squareup.retrofit2", name = "converter-kotlinx-serialization", version.ref = "retrofit" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }

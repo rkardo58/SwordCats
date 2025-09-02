@@ -8,8 +8,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.superapps.core.ui.composables.SwordScaffold
-import com.superapps.core.ui.theme.SwordTheme
+import com.superapps.cats.navigation.cats
+import com.superapps.common.ui.composables.SwordScaffold
+import com.superapps.common.ui.theme.SwordTheme
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -26,7 +27,9 @@ class MainActivity : ComponentActivity() {
                     NavHost(
                         modifier = Modifier.padding(paddingValues),
                         navController = navController,
+                        startDestination = "main",
                     ) {
+                        cats()
                     }
                 }
             }
