@@ -21,7 +21,7 @@ android {
 		versionCode = 1
 		versionName = "1.0"
 
-		testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+		testInstrumentationRunner = "com.superapps.cats.utils.CatsTestRunner"
 	}
 
 	buildTypes {
@@ -64,8 +64,7 @@ dependencies {
 
 	implementation(libs.hilt)
 	implementation(libs.hilt.navigation)
-	ksp(libs.hilt.compiler)
-	// implementation(libs.androidx.hilt.work)
+	kapt(libs.hilt.compiler)
 	ksp(libs.androidx.hilt.compiler)
 
 	implementation(libs.navigation)
@@ -76,6 +75,9 @@ dependencies {
 	androidTestImplementation(libs.androidx.espresso.core)
 	androidTestImplementation(platform(libs.androidx.compose.bom))
 	androidTestImplementation(libs.androidx.ui.test.junit4)
+	androidTestImplementation(libs.hilt.android.testing)
+	kaptAndroidTest(libs.hilt.compiler)
+
 	debugImplementation(libs.androidx.ui.tooling)
 	debugImplementation(libs.androidx.ui.test.manifest)
 }

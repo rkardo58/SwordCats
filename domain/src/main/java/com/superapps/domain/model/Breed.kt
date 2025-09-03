@@ -9,7 +9,7 @@ data class Breed(
 	val description: String,
 	val origin: String,
 	val temperament: List<String>,
-	val lifeSpan: String,
+	val lifespan: String,
 	val imageUrl: String,
 	val isFavourite: Boolean
 )

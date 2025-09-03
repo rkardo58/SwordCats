@@ -70,7 +70,7 @@ data class BreedDto(
 		id = id,
 		imageUrl = image?.url ?: "",
 		isFavourite = isFavourite,
-		lifeSpan = lifeSpan,
+		lifespan = lifeSpan,
 		origin = origin,
 		temperament = temperament
 	)

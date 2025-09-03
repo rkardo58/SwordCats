@@ -12,9 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.superapps.cats.R
+import com.superapps.common.ui.theme.SwordTheme
 
 @Composable
 fun CatsBottomBar(navController: NavController) {
@@ -49,4 +52,13 @@ fun CatsBottomBar(navController: NavController) {
 	}
 }
 
-data class BottomNavItem(val title: String, val route: String, val icon: ImageVector)
+private data class BottomNavItem(val title: String, val route: String, val icon: ImageVector)
+
+@Preview
+@Composable
+private fun CatsBottomBarPreview() {
+	SwordTheme {
+		val navController = rememberNavController()
+		CatsBottomBar(navController)
+	}
+}

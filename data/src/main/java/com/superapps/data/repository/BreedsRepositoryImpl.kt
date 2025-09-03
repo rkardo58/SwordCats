@@ -27,7 +27,7 @@ class BreedsRepositoryImpl @Inject constructor(private val api: CatsApi, private
 	override fun getBreedsPaged(): Flow<PagingData<Breed>> = Pager(
 		config = PagingConfig(
 			pageSize = 20,
-			prefetchDistance = 2
+			prefetchDistance = 30
 		),
 		remoteMediator = BreedsRemoteMediator(api, dataBase),
 		pagingSourceFactory = { breedDao.getPagedBreeds() }

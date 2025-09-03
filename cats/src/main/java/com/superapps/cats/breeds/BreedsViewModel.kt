@@ -31,9 +31,7 @@ internal class BreedsViewModel @Inject constructor(
 
 	private val _state = MutableStateFlow(BreedsState())
 	val state: StateFlow<BreedsState> = _state
-	private val breeds = getBreedsPaged().onEach {
-		Timber.tag("artur2").d("-----------------------------------------------------")
-	}.cachedIn(viewModelScope)
+	private val breeds = getBreedsPaged().cachedIn(viewModelScope)
 
 	init {
 		_state.update {

@@ -32,10 +32,15 @@ class FavouriteViewModel @Inject constructor(
 			getAllFavouriteUseCase().collect { resultState ->
 				_state.update {
 					when (resultState) {
-						is State.Error -> it.copy(isLoading = false)
-						is State.Loading -> it.copy(isLoading = true)
+						is State.Error -> it.copy(isLoading = false, error = resultState.message)
+						is State.Loading -> it.copy(isLoading = true, error = null)
 						is State.Success -> {
-							it.copy(breeds = resultState.data, isLoading = false, averageLifeSpan = getLifeSpan(resultState.data))
+							it.copy(
+								breeds = resultState.data,
+								isLoading = false,
+								averageLifeSpan = getLifeSpan(resultState.data),
+								error = null
+							)
 						}
 					}
 				}
@@ -47,12 +52,15 @@ class FavouriteViewModel @Inject constructor(
 		var totalLifeSpan = 0
 		var lifeSpanCount = 0
 		breeds.forEach { breed ->
-			val catLifeSpan = breed.lifeSpan.split("-").lastOrNull()?.trim()?.toIntOrNull() ?: 0
+			val catLifeSpan = breed.lifespan.split("-").lastOrNull()?.trim()?.toIntOrNull() ?: 0
 			if (catLifeSpan > 0) {
 				totalLifeSpan += catLifeSpan
 				lifeSpanCount++
 			}
 		}
+
+		if (lifeSpanCount <= 0) return 0
+
 		return totalLifeSpan / lifeSpanCount
 	}
 

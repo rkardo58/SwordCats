@@ -8,6 +8,7 @@ plugins {
 	alias(libs.plugins.hilt)
 	alias(libs.plugins.ksp)
 	alias(libs.plugins.serialization)
+	alias(libs.plugins.kapt)
 }
 
 android {
@@ -17,7 +18,7 @@ android {
 	defaultConfig {
 		minSdk = 24
 
-		testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+		testInstrumentationRunner = "com.superapps.cats.utils.CatsTestRunner"
 		consumerProguardFiles("consumer-rules.pro")
 	}
 
@@ -62,7 +63,7 @@ dependencies {
 
 	implementation(libs.hilt)
 	implementation(libs.hilt.navigation)
-	ksp(libs.hilt.compiler)
+	kapt(libs.hilt.compiler)
 
 	implementation(libs.paging)
 	implementation(libs.paging.compose)
@@ -70,7 +71,20 @@ dependencies {
 
 	implementation(libs.jakewharton.timber)
 
+	testImplementation(libs.truth)
+	testImplementation(libs.mockito)
+	testImplementation(libs.mockito.kotlin)
+	testImplementation(libs.turbine)
 	testImplementation(libs.junit)
+	testImplementation(libs.kotlinx.coroutines.test)
+
+	debugImplementation(libs.ui.test.manifest)
+	debugImplementation(libs.androidx.ui.tooling)
+
 	androidTestImplementation(libs.androidx.junit)
 	androidTestImplementation(libs.androidx.espresso.core)
+	androidTestImplementation(libs.ui.test.junit4)
+	androidTestImplementation(libs.androidx.navigation.testing)
+	androidTestImplementation(libs.hilt.android.testing)
+	kaptAndroidTest(libs.hilt.compiler)
 }

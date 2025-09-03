@@ -14,18 +14,23 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.superapps.cats.R
+import com.superapps.common.ui.theme.SwordTheme
 
 @Composable
 internal fun FavouriteButton(modifier: Modifier, isFavourite: Boolean, onClick: () -> Unit) {
 	Icon(
 		modifier =
-		modifier.size(24.dp).clickable(
-			interactionSource = remember { MutableInteractionSource() },
-			indication = ripple(radius = 12.dp),
-			onClick = onClick
-		).background(MaterialTheme.colorScheme.background, shape = CircleShape)
+		modifier
+			.size(24.dp)
+			.clickable(
+				interactionSource = remember { MutableInteractionSource() },
+				indication = ripple(radius = 12.dp),
+				onClick = onClick
+			)
+			.background(MaterialTheme.colorScheme.background, shape = CircleShape)
 			.padding(2.dp),
 		imageVector =
 		ImageVector.vectorResource(
@@ -37,4 +42,24 @@ internal fun FavouriteButton(modifier: Modifier, isFavourite: Boolean, onClick: 
 		),
 		contentDescription = if (isFavourite) "Favourite" else "Not favourite"
 	)
+}
+
+@Preview
+@Composable
+private fun FavouriteButtonPreview_true() {
+	SwordTheme {
+		FavouriteButton(modifier = Modifier, isFavourite = true) {
+
+		}
+	}
+}
+
+@Preview
+@Composable
+private fun FavouriteButtonPreview_false() {
+	SwordTheme {
+		FavouriteButton(modifier = Modifier, isFavourite = false) {
+
+		}
+	}
 }

@@ -7,6 +7,7 @@ plugins {
 	alias(libs.plugins.hilt)
 	alias(libs.plugins.ksp)
 	alias(libs.plugins.serialization)
+	alias(libs.plugins.kapt)
 }
 
 android {
@@ -47,7 +48,7 @@ dependencies {
 	implementation(libs.androidx.appcompat)
 	implementation(libs.material)
 	implementation(libs.hilt)
-	ksp(libs.hilt.compiler)
+	kapt(libs.hilt.compiler)
 
 	implementation(libs.paging)
 	implementation(libs.paging.compose)

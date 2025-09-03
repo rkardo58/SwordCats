@@ -8,6 +8,7 @@ plugins {
 	alias(libs.plugins.hilt)
 	alias(libs.plugins.ksp)
 	alias(libs.plugins.serialization)
+	alias(libs.plugins.kapt)
 }
 
 android {
@@ -58,7 +59,7 @@ dependencies {
 	implementation(project(":domain"))
 	implementation(project(":common"))
 	implementation(libs.hilt)
-	ksp(libs.hilt.compiler)
+	kapt(libs.hilt.compiler)
 
 	implementation(libs.room)
 	implementation(libs.room.ktx)
@@ -72,13 +73,25 @@ dependencies {
 	implementation(libs.paging)
 	implementation(libs.paging.compose)
 	implementation(libs.paging.common)
+	testImplementation(libs.paging.testing)
 
 	implementation(libs.jakewharton.timber)
 
 	implementation(libs.androidx.core.ktx)
 	implementation(libs.androidx.appcompat)
 	implementation(libs.material)
+
+	testImplementation(libs.truth)
+	testImplementation(libs.mockito)
+	testImplementation(libs.mockito.kotlin)
+	testImplementation(libs.turbine)
 	testImplementation(libs.junit)
+	testImplementation(libs.kotlinx.coroutines.test)
+
 	androidTestImplementation(libs.androidx.junit)
 	androidTestImplementation(libs.androidx.espresso.core)
+	androidTestImplementation(libs.kotlinx.coroutines.test)
+	androidTestImplementation(libs.truth)
+	androidTestImplementation(libs.hilt.android.testing)
+	kaptAndroidTest(libs.hilt.compiler)
 }

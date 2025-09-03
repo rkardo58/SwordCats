@@ -15,10 +15,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.superapps.cats.R
 import com.superapps.cats.breeds.composables.BreedItem
 import com.superapps.cats.favourites.model.FavouriteState
+import com.superapps.common.ui.theme.SwordTheme
 import com.superapps.domain.model.Breed
 
 @Composable
@@ -44,6 +46,20 @@ fun FavouritesScreen(
 		}
 		items(state.breeds) {
 			BreedItem(breed = it, onToggleFavorite = onFavouriteClick, onBreedClick = onBreedClick)
+		}
+	}
+}
+
+@Preview
+@Composable
+private fun FavouritesScreenPreview() {
+	SwordTheme {
+		FavouritesScreen(
+			Modifier.fillMaxSize(),
+			FavouriteState(breeds = listOf(Breed("id", "name", "description", "origin", listOf("temperament"), "10 - 12", "image", true))),
+			{ _, _, -> }
+		) {
+
 		}
 	}
 }

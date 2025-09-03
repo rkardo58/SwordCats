@@ -14,7 +14,7 @@ data class BreedEntity(
 	val description: String,
 	val origin: String,
 	val temperament: String,
-	val lifeSpan: String,
+	val lifespan: String,
 	val imageUrl: String,
 	val isFavourite: Boolean
 ) {
@@ -28,7 +28,7 @@ data class BreedEntity(
 		description = description,
 		imageUrl = imageUrl,
 		isFavourite = isFavourite,
-		lifeSpan = lifeSpan,
+		lifespan = lifespan,
 		origin = origin,
 		temperament = temperament.split(",")
 	)

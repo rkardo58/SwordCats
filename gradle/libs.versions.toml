@@ -15,6 +15,7 @@ hilt = "2.57.1"
 hiltNavigation = "1.2.0"
 coil = "3.3.0"
 paging = "3.3.6"
+pagingTesting = "3.3.6"
 
 room = "2.7.2"
 retrofit = "3.0.0"
@@ -25,9 +26,15 @@ jakewhartonTimber = "5.0.1"
 appcompat = "1.7.1"
 material = "1.12.0"
 runtimeAndroid = "1.9.0"
+kotlinxCoroutinesTest = "1.10.2"
+truthVersion = "1.4.4"
+mockito = "5.+"
+mockitoKotlin = "6.0.0"
+turbine = "1.2.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-navigation-testing = { module = "androidx.navigation:navigation-testing" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -47,6 +54,7 @@ hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 hilt-navigation = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigation" }
 androidx-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hiltWork" }
+hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
 
 coil = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
 coil-network = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", version.ref = "coil" }
@@ -61,10 +69,19 @@ serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization
 paging = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging" }
 paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
 paging-common = { group = "androidx.paging", name = "paging-common", version.ref = "paging" }
+paging-testing = { module = "androidx.paging:paging-testing", version.ref = "pagingTesting" }
 
 jakewharton-timber = { module = "com.jakewharton.timber:timber", version.ref = "jakewhartonTimber" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
+truth = { module = "com.google.truth:truth", version.ref = "truthVersion" }
+mockito = { module = "org.mockito:mockito-core", version.ref = "mockito" }
+mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
+ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
+ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
