@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -44,7 +45,12 @@ internal fun BreedsScreen(
 			placeholder = stringResource(R.string.search),
 			value = state.searchQuery,
 			onValueChange = onSearchQueryChange,
-			trailingIcon = if (state.searchQuery.isNotEmpty()) {
+			singleLine = true,
+			trailingIcon = if (state.isLoading) {
+				{
+					CircularProgressIndicator(Modifier.padding(8.dp))
+				}
+			} else if (state.searchQuery.isNotEmpty()) {
 				{
 					Icon(
 						imageVector = Icons.Default.Clear,
@@ -62,7 +68,8 @@ internal fun BreedsScreen(
 			columns = GridCells.Fixed(2),
 			modifier = Modifier.weight(1f),
 			contentPadding = PaddingValues(horizontal = 16.dp),
-			verticalArrangement = Arrangement.spacedBy(16.dp)
+			verticalArrangement = Arrangement.spacedBy(16.dp),
+			horizontalArrangement = Arrangement.spacedBy(4.dp)
 		) {
 			items(
 				breeds.itemCount,

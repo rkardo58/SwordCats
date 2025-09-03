@@ -28,7 +28,6 @@ class BreedsRemoteMediator(private val api: CatsApi, private val dataBase: Sword
 			val localFavs = breedDao.getAllFavourite()
 
 			val entities = remote.map { remoteBreed ->
-				Timber.tag("artur").d("Remote breed: ${remoteBreed.name}")
 				remoteBreed.toEntity(localFavs.any { it.id == remoteBreed.id })
 			}
 
@@ -39,7 +38,6 @@ class BreedsRemoteMediator(private val api: CatsApi, private val dataBase: Sword
 
 				breedDao.insertAll(entities)
 			}
-			Timber.tag("artur").d("MediatorResult.Success ${remote.size} $page")
 			MediatorResult.Success(endOfPaginationReached = remote.size < state.config.pageSize)
 		} catch (e: Exception) {
 			Timber.e(e)

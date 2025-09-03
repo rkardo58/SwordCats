@@ -49,7 +49,6 @@ internal fun FavouriteButton(modifier: Modifier, isFavourite: Boolean, onClick: 
 private fun FavouriteButtonPreview_true() {
 	SwordTheme {
 		FavouriteButton(modifier = Modifier, isFavourite = true) {
-
 		}
 	}
 }
@@ -59,7 +58,6 @@ private fun FavouriteButtonPreview_true() {
 private fun FavouriteButtonPreview_false() {
 	SwordTheme {
 		FavouriteButton(modifier = Modifier, isFavourite = false) {
-
 		}
 	}
 }

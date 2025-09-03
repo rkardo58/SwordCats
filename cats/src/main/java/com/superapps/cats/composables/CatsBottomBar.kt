@@ -17,13 +17,14 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.superapps.cats.R
+import com.superapps.cats.navigation.model.Route
 import com.superapps.common.ui.theme.SwordTheme
 
 @Composable
 fun CatsBottomBar(navController: NavController) {
 	val items = listOf(
-		BottomNavItem(stringResource(R.string.cats), "cats", Icons.AutoMirrored.Filled.List),
-		BottomNavItem(stringResource(R.string.favs), "favs", Icons.Default.Favorite)
+		BottomNavItem(stringResource(R.string.cats), Route.Breeds.route, Icons.AutoMirrored.Filled.List),
+		BottomNavItem(stringResource(R.string.favs), Route.Favourites.route, Icons.Default.Favorite)
 	)
 
 	NavigationBar(
@@ -39,11 +40,24 @@ fun CatsBottomBar(navController: NavController) {
 				label = { Text(item.title) },
 				selected = currentRoute == item.route,
 				onClick = {
-					if (currentRoute != item.route) {
-						navController.navigate(item.route) {
-							popUpTo(navController.graph.startDestinationId) { saveState = true }
-							launchSingleTop = true
-							restoreState = true
+					if (currentRoute == item.route) return@NavigationBarItem
+					when (item.route) {
+						Route.Breeds.route -> {
+							if (currentRoute == Route.Favourites.route) {
+								navController.popBackStack()
+							} else {
+								navController.navigate(Route.Breeds.route) {
+									launchSingleTop = true
+									restoreState = true
+								}
+							}
+						}
+
+						Route.Favourites.route -> {
+							navController.navigate(Route.Favourites.route) {
+								popUpTo(Route.Breeds.route) { saveState = true }
+								launchSingleTop = true
+							}
 						}
 					}
 				}

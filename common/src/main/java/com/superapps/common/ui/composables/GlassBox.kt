@@ -34,10 +34,10 @@ fun GlassBox(
 ) {
 	Box(
 		modifier =
-		modifier
+		modifier.clip(shape)
 			.then(
 				if (onClick != null) {
-					Modifier.clip(shape).clickable(
+					Modifier.clickable(
 						interactionSource = remember { MutableInteractionSource() },
 						indication = ripple(),
 						onClick = onClick

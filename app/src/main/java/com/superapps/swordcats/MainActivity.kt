@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.superapps.cats.navigation.cats
+import com.superapps.cats.navigation.model.CATS_NAVIGATION_GRAPH_ROUTE
 import com.superapps.common.ui.theme.SwordTheme
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -22,7 +23,7 @@ class MainActivity : ComponentActivity() {
 				val navController = rememberNavController()
 				NavHost(
 					navController = navController,
-					startDestination = "main"
+					startDestination = CATS_NAVIGATION_GRAPH_ROUTE
 				) {
 					cats(navController)
 				}

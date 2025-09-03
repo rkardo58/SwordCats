@@ -52,32 +52,31 @@ class BreedsRepositoryImplTest {
 		Dispatchers.resetMain()
 	}
 
+	@Test
+	fun searchBreeds_returns_success_from_remote() = runTest {
+		val dto = createBreedDto("1", "Siamese")
+		whenever(api.searchBreeds("siamese")).thenReturn(listOf(dto))
+		whenever(dao.getAllFavourite()).thenReturn(emptyList())
 
-		@Test
-		fun searchBreeds_returns_success_from_remote() = runTest {
-			val dto = createBreedDto("1", "Siamese")
-			whenever(api.searchBreeds("siamese")).thenReturn(listOf(dto))
-			whenever(dao.getAllFavourite()).thenReturn(emptyList())
+		val result = repository.searchBreeds("siamese")
 
-			val result = repository.searchBreeds("siamese")
+		assert(result is Resource.Success)
+		val data = (result as Resource.Success).data
+		assertThat(data.first().id).isEqualTo("1")
+		verify(dao).insertAll(any())
+	}
 
-			assert(result is Resource.Success)
-			val data = (result as Resource.Success).data
-			assertThat(data.first().id).isEqualTo("1")
-			verify(dao).insertAll(any())
-		}
+	@Test
+	fun searchBreeds_falls_back_to_cache_on_error() = runTest {
+		whenever(api.searchBreeds("siamese")).thenThrow(RuntimeException("Network error"))
+		whenever(dao.getAll()).thenReturn(listOf(createBreedEntity("1", "Siamese")))
 
-		@Test
-		fun searchBreeds_falls_back_to_cache_on_error() = runTest {
-			whenever(api.searchBreeds("siamese")).thenThrow(RuntimeException("Network error"))
-			whenever(dao.getAll()).thenReturn(listOf(createBreedEntity("1", "Siamese")))
+		val result = repository.searchBreeds("siamese")
 
-			val result = repository.searchBreeds("siamese")
-
-			assert(result is Resource.Success)
-			val data = (result as Resource.Success).data
-			assertThat(data.first().name).isEqualTo("Siamese")
-		}
+		assert(result is Resource.Success)
+		val data = (result as Resource.Success).data
+		assertThat(data.first().name).isEqualTo("Siamese")
+	}
 
 	@Test
 	fun getAllFavourite_returns_favourites() = runTest {
@@ -120,4 +119,3 @@ class BreedsRepositoryImplTest {
 		assert(result is Resource.Failed)
 	}
 }
-

@@ -4,13 +4,8 @@ import com.superapps.data.database.model.BreedEntity
 import com.superapps.data.network.model.BreedDto
 import com.superapps.data.network.model.ImageDto
 import com.superapps.data.network.model.WeightDto
-import com.superapps.domain.model.Breed
 
-fun createBreedEntity(
-	id: String = "1",
-	name: String = "Persian",
-	isFavourite: Boolean = false
-) = BreedEntity(
+fun createBreedEntity(id: String = "1", name: String = "Persian", isFavourite: Boolean = false) = BreedEntity(
 	id = id,
 	name = name,
 	description = "Fluffy cat",
@@ -60,47 +55,43 @@ fun createBreedDto(
 	hospitalsUrl: String? = null,
 	vetStreetUrl: String? = "http://www.vetstreet.com/cats/siamese",
 	wikipediaUrl: String? = "https://en.wikipedia.org/wiki/Siamese_cat"
-): BreedDto {
-	return BreedDto(
-		adaptability = adaptability,
-		affectionLevel = affectionLevel,
-		altNames = altNames,
-		cfaUrl = cfaUrl,
-		childFriendly = childFriendly,
-		countryCode = countryCode,
-		countryCodes = countryCodes,
-		description = description,
-		dogFriendly = dogFriendly,
-		energyLevel = energyLevel,
-		experimental = experimental,
-		grooming = grooming,
-		hairless = hairless,
-		healthIssues = healthIssues,
-		hypoallergenic = hypoallergenic,
-		id = id,
-		image = image,
-		indoor = indoor,
-		intelligence = intelligence,
-		lap = lap,
-		lifeSpan = lifeSpan,
-		name = name,
-		natural = natural,
-		origin = origin,
-		rare = rare,
-		referenceImageId = referenceImageId,
-		rex = rex,
-		sheddingLevel = sheddingLevel,
-		shortLegs = shortLegs,
-		socialNeeds = socialNeeds,
-		strangerFriendly = strangerFriendly,
-		suppressedTail = suppressedTail,
-		temperament = temperament,
-		hospitalsUrl = hospitalsUrl,
-		vetStreetUrl = vetStreetUrl,
-		vocalisation = vocalisation,
-		weight = weight,
-		wikipediaUrl = wikipediaUrl
-	)
-}
-
-
+): BreedDto = BreedDto(
+	adaptability = adaptability,
+	affectionLevel = affectionLevel,
+	altNames = altNames,
+	cfaUrl = cfaUrl,
+	childFriendly = childFriendly,
+	countryCode = countryCode,
+	countryCodes = countryCodes,
+	description = description,
+	dogFriendly = dogFriendly,
+	energyLevel = energyLevel,
+	experimental = experimental,
+	grooming = grooming,
+	hairless = hairless,
+	healthIssues = healthIssues,
+	hypoallergenic = hypoallergenic,
+	id = id,
+	image = image,
+	indoor = indoor,
+	intelligence = intelligence,
+	lap = lap,
+	lifeSpan = lifeSpan,
+	name = name,
+	natural = natural,
+	origin = origin,
+	rare = rare,
+	referenceImageId = referenceImageId,
+	rex = rex,
+	sheddingLevel = sheddingLevel,
+	shortLegs = shortLegs,
+	socialNeeds = socialNeeds,
+	strangerFriendly = strangerFriendly,
+	suppressedTail = suppressedTail,
+	temperament = temperament,
+	hospitalsUrl = hospitalsUrl,
+	vetStreetUrl = vetStreetUrl,
+	vocalisation = vocalisation,
+	weight = weight,
+	wikipediaUrl = wikipediaUrl
+)

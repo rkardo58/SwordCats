@@ -1,7 +1,6 @@
 package com.superapps.cats.breeds.composables
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,9 +22,10 @@ import com.superapps.domain.model.Breed
 @Composable
 internal fun BreedItem(breed: Breed, onToggleFavorite: (String, Boolean) -> Unit, onBreedClick: (Breed) -> Unit) {
 	GlassBox(
-		Modifier.fillMaxWidth().clickable(onClick = {
+		modifier = Modifier.fillMaxWidth(),
+		onClick = {
 			onBreedClick(breed)
-		})
+		}
 	) {
 		CatImage(breed)
 

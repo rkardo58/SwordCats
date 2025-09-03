@@ -14,7 +14,9 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class BreedDetailViewModel @Inject constructor(private val favouriteUseCase: FavouriteUseCase) : ViewModel() {
 
-	private val _state = MutableStateFlow(Breed("", "", "", "", emptyList(), "", "", false))
+	private val _state = MutableStateFlow(
+		Breed("", "", "", "", emptyList(), "", "", false)
+	)
 	val state: StateFlow<Breed> = _state
 
 	fun setBreed(breed: Breed) {

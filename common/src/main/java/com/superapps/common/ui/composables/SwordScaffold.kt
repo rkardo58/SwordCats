@@ -32,7 +32,7 @@ fun SwordScaffold(
 		modifier =
 		modifier
 			.background(
-				brush = Brush.linearGradient(listOf(BlueVariant.copy(0.4f), Main.copy(0.4f)))
+				brush = Brush.linearGradient(listOf(Main.copy(0.4f), BlueVariant.copy(0.4f)))
 			).imePadding(),
 		topBar = topBar,
 		bottomBar = bottomBar,

@@ -3,11 +3,11 @@ package com.superapps.cats.favourites
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.superapps.cats.utils.createBreed
-import com.superapps.domain.usecase.FavouriteUseCase
-import com.superapps.domain.usecase.GetAllFavouriteUseCase
 import com.superapps.common.ui.components.State
 import com.superapps.common.ui.components.UiText
 import com.superapps.domain.model.Breed
+import com.superapps.domain.usecase.FavouriteUseCase
+import com.superapps.domain.usecase.GetAllFavouriteUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
@@ -135,4 +135,3 @@ class FavouriteViewModelTest {
 		}
 	}
 }
-

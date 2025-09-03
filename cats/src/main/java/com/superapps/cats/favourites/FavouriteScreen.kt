@@ -34,7 +34,8 @@ fun FavouritesScreen(
 		columns = GridCells.Fixed(2),
 		modifier = modifier.fillMaxSize(),
 		contentPadding = PaddingValues(horizontal = 16.dp),
-		verticalArrangement = Arrangement.spacedBy(16.dp)
+		verticalArrangement = Arrangement.spacedBy(16.dp),
+		horizontalArrangement = Arrangement.spacedBy(4.dp)
 	) {
 		if (state.averageLifeSpan > 0) {
 			item(span = { GridItemSpan(this.maxLineSpan) }) {
@@ -57,9 +58,8 @@ private fun FavouritesScreenPreview() {
 		FavouritesScreen(
 			Modifier.fillMaxSize(),
 			FavouriteState(breeds = listOf(Breed("id", "name", "description", "origin", listOf("temperament"), "10 - 12", "image", true))),
-			{ _, _, -> }
+			{ _, _ -> }
 		) {
-
 		}
 	}
 }
