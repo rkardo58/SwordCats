@@ -1,4 +1,4 @@
-package com.superapps.cats.breeds.composables
+package com.superapps.cats.composables
 
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode
@@ -22,34 +22,34 @@ import com.superapps.common.ui.theme.SwordTheme
 
 @Composable
 internal fun RockingCat() {
-    val infiniteTransition = rememberInfiniteTransition(label = "rotate")
-    val rotation by infiniteTransition.animateFloat(
-        initialValue = -15f,
-        targetValue = 15f,
-        animationSpec =
-            infiniteRepeatable(
-                animation = tween(600, easing = FastOutSlowInEasing),
-                repeatMode = RepeatMode.Reverse,
-            ),
-        label = "rotation",
-    )
+	val infiniteTransition = rememberInfiniteTransition(label = "rotate")
+	val rotation by infiniteTransition.animateFloat(
+		initialValue = -15f,
+		targetValue = 15f,
+		animationSpec =
+		infiniteRepeatable(
+			animation = tween(600, easing = FastOutSlowInEasing),
+			repeatMode = RepeatMode.Reverse
+		),
+		label = "rotation"
+	)
 
-    Image(
-        painter = painterResource(R.drawable.cat_playing),
-        contentDescription = null,
-        modifier =
-            Modifier
-                .fillMaxWidth()
-                .padding(20.dp)
-                .aspectRatio(1f)
-                .graphicsLayer { rotationZ = rotation },
-    )
+	Image(
+		painter = painterResource(R.drawable.cat_playing),
+		contentDescription = null,
+		modifier =
+		Modifier
+			.fillMaxWidth()
+			.padding(20.dp)
+			.aspectRatio(1f)
+			.graphicsLayer { rotationZ = rotation }
+	)
 }
 
 @Preview
 @Composable
 private fun RockingCatPreview() {
-    SwordTheme {
-        RockingCat()
-    }
+	SwordTheme {
+		RockingCat()
+	}
 }

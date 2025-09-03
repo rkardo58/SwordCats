@@ -16,25 +16,21 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DataModule {
-    @Provides
-    @Singleton
-    fun provideSwordDatabase(app: Application): SwordCatsDataBase =
-        Room
-            .databaseBuilder(
-                app,
-                SwordCatsDataBase::class.java,
-                "sword_cats_db",
-            ).fallbackToDestructiveMigration(true)
-            .build()
+	@Provides
+	@Singleton
+	fun provideSwordDatabase(app: Application): SwordCatsDataBase = Room
+		.databaseBuilder(
+			app,
+			SwordCatsDataBase::class.java,
+			"sword_cats_db"
+		).fallbackToDestructiveMigration(true)
+		.build()
 
-    @Provides
-    @Singleton
-    fun provideBreedsRepository(
-        api: CatsApi,
-        breedsDao: BreedsDao,
-    ): BreedsRepository = BreedsRepositoryImpl(api, breedsDao)
+	@Provides
+	@Singleton
+	fun provideCatBreedDao(database: SwordCatsDataBase): BreedsDao = database.breedsDao()
 
-    @Provides
-    @Singleton
-    fun provideCatBreedDao(database: SwordCatsDataBase): BreedsDao = database.breedsDao()
+	@Provides
+	@Singleton
+	fun provideBreedsRepository(api: CatsApi, catsDataBase: SwordCatsDataBase): BreedsRepository = BreedsRepositoryImpl(api, catsDataBase)
 }

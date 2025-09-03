@@ -30,78 +30,73 @@ import com.superapps.common.ui.theme.MainBlue
 import com.superapps.common.ui.theme.SwordTheme
 
 @Composable
-fun GradientButton(
-    modifier: Modifier = Modifier,
-    text: String,
-    enabled: Boolean = true,
-    onClick: () -> Unit,
-) {
-    val shape = RoundedCornerShape(50)
-    val transition = rememberInfiniteTransition(label = "shimmer")
+fun GradientButton(modifier: Modifier = Modifier, text: String, enabled: Boolean = true, onClick: () -> Unit) {
+	val shape = RoundedCornerShape(50)
+	val transition = rememberInfiniteTransition(label = "shimmer")
 
-    val offsetX by transition.animateFloat(
-        initialValue = -100f,
-        targetValue = 200f,
-        animationSpec =
-            infiniteRepeatable(
-                animation = tween(durationMillis = 2000, easing = LinearEasing),
-                repeatMode = RepeatMode.Reverse,
-            ),
-        label = "shimmerOffset",
-    )
+	val offsetX by transition.animateFloat(
+		initialValue = -100f,
+		targetValue = 200f,
+		animationSpec =
+		infiniteRepeatable(
+			animation = tween(durationMillis = 2000, easing = LinearEasing),
+			repeatMode = RepeatMode.Reverse
+		),
+		label = "shimmerOffset"
+	)
 
-    Button(
-        modifier =
-            modifier.clip(shape).drawBehind {
-                val brush =
-                    Brush.linearGradient(
-                        colors =
-                            listOf(
-                                MainBlue.copy(0.6f),
-                                Main.copy(0.6f),
-                                Color.LightGray.copy(0.1f),
-                            ),
-                        start = Offset(offsetX, 0f),
-                        end = Offset(offsetX + size.width, size.height),
-                    )
-                drawRect(
-                    brush = brush,
-                    size = size,
-                )
-            },
-        onClick = onClick,
-        colors =
-            ButtonDefaults.buttonColors(
-                Color.Transparent,
-                contentColor = Black,
-            ),
-        enabled = enabled,
-        border =
-            BorderStroke(
-                width = 1.dp,
-                brush =
-                    Brush.verticalGradient(
-                        colors =
-                            listOf(
-                                Color.White.copy(alpha = 0.8f),
-                                Color.Transparent,
-                            ),
-                    ),
-            ),
-        shape = shape,
-    ) {
-        Text(
-            text,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(10.dp),
-        )
-    }
+	Button(
+		modifier =
+		modifier.clip(shape).drawBehind {
+			val brush =
+				Brush.linearGradient(
+					colors =
+					listOf(
+						MainBlue.copy(0.6f),
+						Main.copy(0.6f),
+						Color.LightGray.copy(0.1f)
+					),
+					start = Offset(offsetX, 0f),
+					end = Offset(offsetX + size.width, size.height)
+				)
+			drawRect(
+				brush = brush,
+				size = size
+			)
+		},
+		onClick = onClick,
+		colors =
+		ButtonDefaults.buttonColors(
+			Color.Transparent,
+			contentColor = Black
+		),
+		enabled = enabled,
+		border =
+		BorderStroke(
+			width = 1.dp,
+			brush =
+			Brush.verticalGradient(
+				colors =
+				listOf(
+					Color.White.copy(alpha = 0.8f),
+					Color.Transparent
+				)
+			)
+		),
+		shape = shape
+	) {
+		Text(
+			text,
+			fontWeight = FontWeight.Bold,
+			modifier = Modifier.padding(10.dp)
+		)
+	}
 }
 
 @Preview
 @Composable
 private fun GlassButtonPreview() {
-    SwordTheme {
-        GradientButton(modifier = Modifier.fillMaxWidth(), text = "Save") {}
-    }
+	SwordTheme {
+		GradientButton(modifier = Modifier.fillMaxWidth(), text = "Save") {}
+	}
 }

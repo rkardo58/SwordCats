@@ -29,105 +29,102 @@ import com.superapps.common.ui.theme.SwordTheme
 
 @Composable
 fun GlassTextField(
-    modifier: Modifier = Modifier,
-    value: String,
-    enabled: Boolean = true,
-    readOnly: Boolean = false,
-    textStyle: TextStyle = LocalTextStyle.current,
-    placeholder: String? = null,
-    leadingIcon: @Composable (() -> Unit)? = null,
-    trailingIcon: @Composable (() -> Unit)? = null,
-    prefix: @Composable (() -> Unit)? = null,
-    suffix: @Composable (() -> Unit)? = null,
-    supportingText: @Composable (() -> Unit)? = null,
-    isError: Boolean = false,
-    visualTransformation: VisualTransformation = VisualTransformation.None,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    keyboardActions: KeyboardActions = KeyboardActions.Default,
-    singleLine: Boolean = false,
-    maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
-    minLines: Int = 1,
-    interactionSource: MutableInteractionSource? = null,
-    onValueChange: (String) -> Unit,
+	modifier: Modifier = Modifier,
+	value: String,
+	enabled: Boolean = true,
+	readOnly: Boolean = false,
+	textStyle: TextStyle = LocalTextStyle.current,
+	placeholder: String? = null,
+	leadingIcon: @Composable (() -> Unit)? = null,
+	trailingIcon: @Composable (() -> Unit)? = null,
+	prefix: @Composable (() -> Unit)? = null,
+	suffix: @Composable (() -> Unit)? = null,
+	supportingText: @Composable (() -> Unit)? = null,
+	isError: Boolean = false,
+	visualTransformation: VisualTransformation = VisualTransformation.None,
+	keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+	keyboardActions: KeyboardActions = KeyboardActions.Default,
+	singleLine: Boolean = false,
+	maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
+	minLines: Int = 1,
+	interactionSource: MutableInteractionSource? = null,
+	onValueChange: (String) -> Unit
 ) {
-    TextField(
-        value,
-        onValueChange,
-        modifier.glassBorder(isError, enabled),
-        enabled,
-        readOnly,
-        textStyle,
-        null,
-        placeholder?.let {
-            @Composable { Text(it) }
-        },
-        leadingIcon,
-        trailingIcon,
-        prefix,
-        suffix,
-        supportingText,
-        isError,
-        visualTransformation,
-        keyboardOptions,
-        keyboardActions,
-        singleLine,
-        maxLines,
-        minLines,
-        interactionSource,
-        RoundedCornerShape(50),
-        TextFieldDefaults.colors(
-            focusedContainerColor = Color.LightGray.copy(0.1f),
-            unfocusedContainerColor = Color.LightGray.copy(0.1f),
-            disabledContainerColor = Color.LightGray.copy(0.2f),
-            errorContainerColor = Color.LightGray.copy(0.1f, Color.LightGray.red * 1.5f),
-            unfocusedLeadingIconColor = Black,
-            focusedLeadingIconColor = Black,
-            errorIndicatorColor = Color.Transparent,
-            disabledIndicatorColor = Color.Transparent,
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent,
-            focusedTextColor = Black,
-            unfocusedTextColor = Black,
-            disabledTextColor = Black.copy(0.5f),
-            errorTextColor = Black.copy(red = Black.red * 1.5f),
-        ),
-    )
+	TextField(
+		value,
+		onValueChange,
+		modifier.glassBorder(isError, enabled),
+		enabled,
+		readOnly,
+		textStyle,
+		null,
+		placeholder?.let {
+			@Composable { Text(it) }
+		},
+		leadingIcon,
+		trailingIcon,
+		prefix,
+		suffix,
+		supportingText,
+		isError,
+		visualTransformation,
+		keyboardOptions,
+		keyboardActions,
+		singleLine,
+		maxLines,
+		minLines,
+		interactionSource,
+		RoundedCornerShape(50),
+		TextFieldDefaults.colors(
+			focusedContainerColor = Color.LightGray.copy(0.1f),
+			unfocusedContainerColor = Color.LightGray.copy(0.1f),
+			disabledContainerColor = Color.LightGray.copy(0.2f),
+			errorContainerColor = Color.LightGray.copy(0.1f, Color.LightGray.red * 1.5f),
+			unfocusedLeadingIconColor = Black,
+			focusedLeadingIconColor = Black,
+			errorIndicatorColor = Color.Transparent,
+			disabledIndicatorColor = Color.Transparent,
+			focusedIndicatorColor = Color.Transparent,
+			unfocusedIndicatorColor = Color.Transparent,
+			focusedTextColor = Black,
+			unfocusedTextColor = Black,
+			disabledTextColor = Black.copy(0.5f),
+			errorTextColor = Black.copy(red = Black.red * 1.5f)
+		)
+	)
 }
 
 @Composable
-private fun Modifier.glassBorder(
-    isError: Boolean,
-    enabled: Boolean,
-): Modifier {
-    val baseColor =
-        when {
-            isError && enabled -> Color.Red.copy(0.5f)
-            !enabled -> Color.LightGray.copy(0.6f)
-            else -> Color.White.copy(0.8f)
-        }
+private fun Modifier.glassBorder(isError: Boolean, enabled: Boolean): Modifier {
+	val baseColor =
+		when {
+			isError && enabled -> Color.Red.copy(0.5f)
+			!enabled -> Color.LightGray.copy(0.6f)
+			else -> Color.White.copy(0.8f)
+		}
 
-    val colorList =
-        listOf(
-            baseColor,
-            Color.Transparent,
-            baseColor,
-        )
+	val colorList =
+		listOf(
+			baseColor,
+			Color.Transparent,
+			baseColor
+		)
 
-    return this.border(
-        1.dp,
-        brush = Brush.linearGradient(colorList),
-        shape = RoundedCornerShape(50),
-    )
+	return this.border(
+		1.dp,
+		brush = Brush.linearGradient(colorList),
+		shape = RoundedCornerShape(50)
+	)
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun GlassTextFieldPrev() {
-    SwordTheme {
-        var text by remember { mutableStateOf("Food") }
-        GlassTextField(value = text, leadingIcon = {
-            Icon(Icons.Default.Search, contentDescription = "search")
-        }) {
-        }
-    }
+	SwordTheme {
+		var text by remember { mutableStateOf("Food") }
+		GlassTextField(value = text, leadingIcon = {
+			Icon(Icons.Default.Search, contentDescription = "search")
+		}) {
+		}
+	}
 }

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cats">Cats</string>
+    <string name="favs">Favourites</string>
+
+    <string name="average_life_span">Average Life Span</string>
+    <string name="life_span_value">%d years</string>
+    <string name="origin">Origin:</string>
+    <string name="life_span">Life Span:</string>
+</resources>

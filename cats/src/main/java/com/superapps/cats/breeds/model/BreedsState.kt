@@ -1,17 +1,14 @@
 package com.superapps.cats.breeds.model
 
-import androidx.compose.runtime.Stable
+import androidx.paging.PagingData
 import com.superapps.common.ui.components.UiText
 import com.superapps.domain.model.Breed
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 
 internal data class BreedsState(
-    val isLoading: Boolean = false,
-    val searchQuery: String = "",
-    val breeds: Breeds = Breeds(),
-    val error: UiText? = null,
-) {
-    @Stable
-    data class Breeds(
-        val list: List<Breed> = emptyList(),
-    )
-}
+	val isLoading: Boolean = false,
+	val searchQuery: String = "",
+	val breeds: Flow<PagingData<Breed>> = emptyFlow(),
+	val error: UiText? = null
+)
