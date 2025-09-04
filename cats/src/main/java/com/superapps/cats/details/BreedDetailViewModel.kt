@@ -9,6 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @HiltViewModel
@@ -27,7 +28,9 @@ class BreedDetailViewModel @Inject constructor(private val favouriteUseCase: Fav
 		viewModelScope.launch {
 			favouriteUseCase(state.value.id, isFavourite).collect { breed ->
 				if (breed.isSuccessful()) {
-					_state.value = (breed as State.Success<Breed>).data
+					_state.update {
+						(breed as State.Success<Breed>).data
+					}
 				}
 			}
 		}

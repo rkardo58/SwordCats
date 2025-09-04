@@ -2,8 +2,10 @@
 <resources>
     <string name="cats">Gatos</string>
     <string name="favs">Favoritos</string>
-    <string name="average_life_span">Esperança Média de Vida</string>
+	<string name="add_favourite">Adiciona Favorito</string>
+	<string name="average_life_span">Esperança Média de Vida</string>
     <string name="life_span_value">%d anos</string>
     <string name="origin">Origem:</string>
     <string name="life_span">Life Span:</string>
+    <string name="remove_favourite">Remove Favorito</string>
 </resources>

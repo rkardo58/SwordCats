@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.superapps.data.database.SwordCatsDataBase
 import com.superapps.data.database.dao.BreedsDao
 import com.superapps.data.network.CatsApi
+import com.superapps.data.repository.BreedsRemoteMediator
 import com.superapps.data.repository.BreedsRepositoryImpl
 import com.superapps.domain.repository.BreedsRepository
 import dagger.Module
@@ -16,6 +17,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DataModule {
+
 	@Provides
 	@Singleton
 	fun provideSwordDatabase(app: Application): SwordCatsDataBase = Room
@@ -32,5 +34,6 @@ object DataModule {
 
 	@Provides
 	@Singleton
-	fun provideBreedsRepository(api: CatsApi, catsDataBase: SwordCatsDataBase): BreedsRepository = BreedsRepositoryImpl(api, catsDataBase)
+	fun provideBreedsRepository(api: CatsApi, dao: BreedsDao, remoteMediator: BreedsRemoteMediator): BreedsRepository =
+		BreedsRepositoryImpl(api, dao, remoteMediator)
 }

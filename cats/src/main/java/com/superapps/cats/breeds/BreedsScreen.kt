@@ -54,7 +54,7 @@ internal fun BreedsScreen(
 				{
 					Icon(
 						imageVector = Icons.Default.Clear,
-						contentDescription = "Clear",
+						contentDescription = stringResource(R.string.clear),
 						Modifier.clickable {
 							onSearchQueryChange("")
 						}

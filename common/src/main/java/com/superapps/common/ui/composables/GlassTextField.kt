@@ -20,10 +20,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.superapps.common.R
 import com.superapps.common.ui.theme.Black
 import com.superapps.common.ui.theme.SwordTheme
 
@@ -123,7 +125,7 @@ private fun GlassTextFieldPrev() {
 	SwordTheme {
 		var text by remember { mutableStateOf("Food") }
 		GlassTextField(value = text, leadingIcon = {
-			Icon(Icons.Default.Search, contentDescription = "search")
+			Icon(Icons.Default.Search, contentDescription = stringResource(R.string.search))
 		}) {
 		}
 	}

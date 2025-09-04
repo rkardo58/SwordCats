@@ -3,6 +3,9 @@
     <string name="cats">Cats</string>
     <string name="favs">Favourites</string>
 
+	<string name="remove_favourite">Remove favourite</string>
+	<string name="add_favourite">Add favourite</string>
+
     <string name="average_life_span">Average Life Span</string>
     <string name="life_span_value">%d years</string>
     <string name="origin">Origin:</string>

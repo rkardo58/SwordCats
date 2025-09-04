@@ -21,7 +21,7 @@ android {
 		versionCode = 1
 		versionName = "1.0"
 
-		testInstrumentationRunner = "com.superapps.cats.utils.CatsTestRunner"
+		testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 	}
 
 	buildTypes {
@@ -50,7 +50,6 @@ kotlin {
 }
 
 dependencies {
-	implementation(project(":data"))
 	implementation(project(":common"))
 	implementation(project(":cats"))
 	implementation(libs.androidx.core.ktx)

@@ -18,7 +18,7 @@ android {
 	defaultConfig {
 		minSdk = 24
 
-		testInstrumentationRunner = "com.superapps.cats.utils.CatsTestRunner"
+		testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 		consumerProguardFiles("consumer-rules.pro")
 	}
 
@@ -44,7 +44,7 @@ kotlin {
 }
 
 dependencies {
-
+	implementation(project(":data"))
 	implementation(project(":domain"))
 	implementation(project(":common"))
 	implementation(libs.androidx.core.ktx)
@@ -77,6 +77,7 @@ dependencies {
 	testImplementation(libs.turbine)
 	testImplementation(libs.junit)
 	testImplementation(libs.kotlinx.coroutines.test)
+	testImplementation(libs.paging.testing)
 
 	debugImplementation(libs.ui.test.manifest)
 	debugImplementation(libs.androidx.ui.tooling)

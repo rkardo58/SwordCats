@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.superapps.data.database.model.BreedEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface BreedsDao {
@@ -26,7 +27,7 @@ interface BreedsDao {
 	suspend fun insert(breed: BreedEntity)
 
 	@Query("SELECT * FROM ${BreedEntity.TABLE_NAME} WHERE isFavourite = 1 ORDER BY name ASC")
-	suspend fun getAllFavourite(): List<BreedEntity>
+	fun getAllFavourite(): Flow<List<BreedEntity>>
 
 	@Query("DELETE FROM ${BreedEntity.TABLE_NAME}")
 	fun clearAll()

@@ -9,6 +9,7 @@ import com.superapps.domain.usecase.FavouriteUseCase
 import com.superapps.domain.usecase.GetAllFavouriteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlin.math.roundToInt
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -24,10 +25,10 @@ class FavouriteViewModel @Inject constructor(
 	val state: StateFlow<FavouriteState> = _state
 
 	init {
-		getFavourites()
+		observeFavourites()
 	}
 
-	fun getFavourites() {
+	private fun observeFavourites() {
 		viewModelScope.launch {
 			getAllFavouriteUseCase().collect { resultState ->
 				_state.update {
@@ -61,16 +62,15 @@ class FavouriteViewModel @Inject constructor(
 
 		if (lifeSpanCount <= 0) return 0
 
-		return totalLifeSpan / lifeSpanCount
+		return (totalLifeSpan.toDouble() / lifeSpanCount).roundToInt()
 	}
 
 	fun removeFromFav(id: String) {
 		viewModelScope.launch {
-			favouriteUseCase(id, false).collect { state ->
-				if (state is State.Success) {
-					_state.update {
-						val filteredBreeds = it.breeds.filter { it.id != id }
-						it.copy(breeds = it.breeds.filter { it.id != id }, isLoading = false, averageLifeSpan = getLifeSpan(filteredBreeds))
+			favouriteUseCase(id, false).collect {
+				if (it.isFailed()) {
+					_state.update { state ->
+						state.copy(error = (it as State.Error).message)
 					}
 				}
 			}

@@ -21,7 +21,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.mock
-import org.mockito.kotlin.any
+import org.mockito.Mockito.verify
 import org.mockito.kotlin.whenever
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -46,91 +46,122 @@ class FavouriteViewModelTest {
 	}
 
 	@Test
-	fun getFavourites_emits_loading_then_success() = runTest(testDispatcher) {
-		val breeds = listOf(createBreed("1"), createBreed("2", lifespan = "12-14"))
-		whenever(getAllFavouriteUseCase()).thenReturn(
-			flowOf(State.Loading(), State.Success(breeds))
-		)
+	fun `observeFavourites emits loading then success`() = runTest {
+		val breeds = listOf(createBreed("1", lifespan = "10-14"), createBreed("2", lifespan = "12-16"))
+		whenever(getAllFavouriteUseCase()).thenReturn(flowOf(State.Loading(), State.Success(breeds)))
 
 		viewModel = FavouriteViewModel(getAllFavouriteUseCase, favouriteUseCase)
 
 		viewModel.state.test {
 			val initial = awaitItem()
-			assertThat(initial.breeds).isEmpty()
+			assertThat(initial.isLoading).isFalse()
 
 			val loading = awaitItem()
 			assertThat(loading.isLoading).isTrue()
 
 			val success = awaitItem()
+			assertThat(success.isLoading).isFalse()
 			assertThat(success.breeds).hasSize(2)
-			assertThat(success.averageLifeSpan).isEqualTo((15 + 14) / 2)
+			// Average lifespan = (14+16)/2 = 15
+			assertThat(success.averageLifeSpan).isEqualTo(15)
 
 			cancelAndIgnoreRemainingEvents()
 		}
 	}
 
 	@Test
-	fun getFavourites_emits_loading_then_success_when_list_is_empty() = runTest(testDispatcher) {
-		val breeds = emptyList<Breed>()
-		whenever(getAllFavouriteUseCase()).thenReturn(
-			flowOf(State.Loading(), State.Success(breeds))
-		)
+	fun `observeFavourites emits error`() = runTest {
+		val errorMessage = UiText.DynamicString("Boom")
+		whenever(getAllFavouriteUseCase()).thenReturn(flowOf(State.Error(errorMessage)))
 
 		viewModel = FavouriteViewModel(getAllFavouriteUseCase, favouriteUseCase)
+		advanceUntilIdle()
 
 		viewModel.state.test {
-			val initial = awaitItem()
-			assertThat(initial.breeds).isEmpty()
-
-			val loading = awaitItem()
-			assertThat(loading.isLoading).isTrue()
-
-			val success = awaitItem()
-			assertThat(success.breeds).hasSize(0)
-			assertThat(success.averageLifeSpan).isEqualTo(0)
-
+			val errorState = awaitItem()
+			assertThat(errorState.isLoading).isFalse()
+			assertThat(errorState.error).isEqualTo(errorMessage)
 			cancelAndIgnoreRemainingEvents()
 		}
 	}
 
 	@Test
-	fun getFavourites_emits_error() = runTest(testDispatcher) {
-		val message = UiText.DynamicString("Boom")
-		whenever(getAllFavouriteUseCase()).thenReturn(flowOf(State.Error(message)))
+	fun `observeFavourites handles empty list`() = runTest {
+		whenever(getAllFavouriteUseCase()).thenReturn(flowOf(State.Success(emptyList())))
 
 		viewModel = FavouriteViewModel(getAllFavouriteUseCase, favouriteUseCase)
+		advanceUntilIdle()
 
 		viewModel.state.test {
-			awaitItem()
-			val error = awaitItem()
-			assertThat(error.isLoading).isFalse()
-			assertThat(error.breeds).isEmpty()
-			assertThat(error.error).isEqualTo(message)
-
-			cancelAndIgnoreRemainingEvents()
-		}
-	}
-
-	@Test
-	fun removeFromFav_updates_state_after_success() = runTest(testDispatcher) {
-		val breeds = listOf(createBreed("1", isFavourite = true), createBreed("2"))
-		whenever(getAllFavouriteUseCase()).thenReturn(flowOf(State.Success(breeds)))
-		whenever(favouriteUseCase(any(), any())).thenReturn(flowOf(State.Success(createBreed("1", isFavourite = false))))
-
-		viewModel = FavouriteViewModel(getAllFavouriteUseCase, favouriteUseCase)
-
-		viewModel.state.test {
-			awaitItem()
 			val state = awaitItem()
-			assertThat(state.breeds.first { it.id == "1" }.isFavourite).isTrue()
-			assertThat(state.breeds).hasSize(breeds.size)
+			assertThat(state.breeds).isEmpty()
+			assertThat(state.averageLifeSpan).isEqualTo(0)
+			cancelAndIgnoreRemainingEvents()
+		}
+	}
 
-			viewModel.removeFromFav("1")
-			advanceUntilIdle()
-			val result = awaitItem()
+	@Test
+	fun `getLifeSpan calculates average correctly`() = runTest {
+		viewModel = FavouriteViewModel(getAllFavouriteUseCase, favouriteUseCase)
+		val breeds = listOf(
+			createBreed("1", lifespan = "10-12"),
+			createBreed("2", lifespan = "14-16"),
+			createBreed("3", lifespan = "invalid") // should be ignored
+		)
+		whenever(getAllFavouriteUseCase()).thenReturn(flowOf(State.Success(breeds)))
+		val average = viewModel.run {
+			// Using reflection since getLifeSpan is private
+			val method = FavouriteViewModel::class.java.getDeclaredMethod("getLifeSpan", List::class.java)
+			method.isAccessible = true
+			method.invoke(this, breeds) as Int
+		}
+		assertThat(average).isEqualTo((12 + 16) / 2) // 14
+	}
 
-			assertThat(result.breeds.any { it.id == "1" }).isFalse()
-			assertThat(result.breeds).hasSize(breeds.size - 1)
+	@Test
+	fun `removeFromFav calls favouriteUseCase and emits error if failed`() = runTest {
+		val id = "123"
+		val errorState = State.Error<Breed>(UiText.DynamicString("Fail"))
+
+		val breeds = listOf(createBreed("1", lifespan = "10-14"), createBreed("2", lifespan = "12-16"))
+		whenever(getAllFavouriteUseCase()).thenReturn(flowOf(State.Success(breeds)))
+
+		whenever(favouriteUseCase(id, false)).thenReturn(flowOf(errorState))
+
+		viewModel = FavouriteViewModel(getAllFavouriteUseCase, favouriteUseCase)
+		advanceUntilIdle()
+
+		viewModel.removeFromFav(id)
+		advanceUntilIdle()
+
+		verify(favouriteUseCase).invoke(id, false)
+
+		viewModel.state.test {
+			val state = awaitItem()
+			assertThat(state.error).isEqualTo(UiText.DynamicString("Fail"))
+			cancelAndIgnoreRemainingEvents()
+		}
+	}
+
+	@Test
+	fun `removeFromFav success does not emit error`() = runTest {
+		val id = "1"
+		val breed = createBreed(id, lifespan = "10-14")
+		val breeds = listOf(breed, createBreed("2", lifespan = "12-16"))
+		whenever(getAllFavouriteUseCase()).thenReturn(flowOf(State.Loading(), State.Success(breeds)))
+		whenever(favouriteUseCase(id, false)).thenReturn(flowOf(State.Success(breed)))
+
+		viewModel = FavouriteViewModel(getAllFavouriteUseCase, favouriteUseCase)
+		advanceUntilIdle()
+
+		viewModel.removeFromFav(id)
+		advanceUntilIdle()
+
+		verify(favouriteUseCase).invoke(id, false)
+
+		viewModel.state.test {
+			val state = awaitItem()
+			assertThat(state.error).isNull()
 			cancelAndIgnoreRemainingEvents()
 		}
 	}

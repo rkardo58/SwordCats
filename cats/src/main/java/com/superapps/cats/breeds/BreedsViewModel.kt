@@ -12,6 +12,7 @@ import com.superapps.domain.usecase.GetBreedsPaged
 import com.superapps.domain.usecase.SearchBreed
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.debounce
@@ -37,7 +38,8 @@ internal class BreedsViewModel @Inject constructor(
 		}
 	}
 
-	fun onSearchQueryChange(query: String) {
+	@OptIn(FlowPreview::class)
+	fun onSearchQueryChange(query: String, debounceMs: Long = 500) {
 		_state.update {
 			it.copy(searchQuery = query)
 		}
@@ -48,7 +50,7 @@ internal class BreedsViewModel @Inject constructor(
 			}
 		} else {
 			viewModelScope.launch {
-				searchBreed(query).debounce(500).collect { state ->
+				searchBreed(query).debounce(debounceMs).collect { state ->
 					_state.update {
 						when (state) {
 							is State.Error -> it.copy(error = state.message, isLoading = false)
@@ -79,7 +81,9 @@ internal class BreedsViewModel @Inject constructor(
 						}
 					} ?: return@collect
 
-					_state.value = _state.value.copy(breeds = flowOf(updated))
+					_state.update {
+						it.copy(breeds = flowOf(updated))
+					}
 				}
 			}
 		}

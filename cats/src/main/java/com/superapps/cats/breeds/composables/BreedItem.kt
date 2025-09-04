@@ -46,7 +46,7 @@ internal fun BreedItem(breed: Breed, onToggleFavorite: (String, Boolean) -> Unit
 				.fillMaxWidth(0.8f)
 				.padding(bottom = 10.dp)
 				.background(Color.White.copy(alpha = 0.7f), RoundedCornerShape(50))
-				.padding(8.dp),
+				.padding(6.dp),
 			text = breed.name,
 			textAlign = TextAlign.Center,
 			maxLines = 2,

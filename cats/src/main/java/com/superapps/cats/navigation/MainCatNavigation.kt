@@ -7,7 +7,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -63,14 +62,6 @@ fun NavGraphBuilder.cats(navController: NavController) {
 			) { paddingValues ->
 				val viewmodel = hiltViewModel<FavouriteViewModel>()
 				val state = viewmodel.state.collectAsStateWithLifecycle().value
-
-				LifecycleResumeEffect(true) {
-					viewmodel.getFavourites()
-
-					onPauseOrDispose {
-						snackbarHostState.currentSnackbarData?.dismiss()
-					}
-				}
 
 				SnackBarEffect(state.error, snackbarHostState)
 

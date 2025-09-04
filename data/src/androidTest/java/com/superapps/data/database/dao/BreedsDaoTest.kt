@@ -7,6 +7,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
 import com.superapps.data.database.SwordCatsDataBase
 import com.superapps.data.utils.createBreedEntity
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
@@ -66,7 +67,7 @@ class BreedsDaoTest {
 		)
 		dao.insertAll(breeds)
 
-		val favourites = dao.getAllFavourite()
+		val favourites = dao.getAllFavourite().first()
 		assertThat(favourites).hasSize(1)
 		assertThat(favourites.first().name).isEqualTo("Persian")
 	}

@@ -13,7 +13,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.onClick
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.superapps.cats.R
@@ -23,8 +29,9 @@ import com.superapps.common.ui.theme.SwordTheme
 internal fun FavouriteButton(modifier: Modifier, isFavourite: Boolean, onClick: () -> Unit) {
 	Icon(
 		modifier =
-		modifier
-			.size(24.dp)
+		modifier.semantics {
+			role = Role.Button
+		}.size(24.dp)
 			.clickable(
 				interactionSource = remember { MutableInteractionSource() },
 				indication = ripple(radius = 12.dp),
@@ -40,7 +47,7 @@ internal fun FavouriteButton(modifier: Modifier, isFavourite: Boolean, onClick: 
 				R.drawable.paw_outline
 			}
 		),
-		contentDescription = if (isFavourite) "Favourite" else "Not favourite"
+		contentDescription = stringResource(if (isFavourite) R.string.remove_favourite else R.string.add_favourite)
 	)
 }
 

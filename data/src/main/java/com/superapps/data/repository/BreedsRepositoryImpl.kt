@@ -7,21 +7,25 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import com.superapps.common.R
 import com.superapps.common.Resource
+import com.superapps.common.ui.components.State
 import com.superapps.common.ui.components.UiText
 import com.superapps.data.R as dataRes
-import com.superapps.data.database.SwordCatsDataBase
 import com.superapps.data.database.dao.BreedsDao
 import com.superapps.data.network.CatsApi
 import com.superapps.domain.model.Breed
 import com.superapps.domain.repository.BreedsRepository
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
-class BreedsRepositoryImpl @Inject constructor(private val api: CatsApi, private val dataBase: SwordCatsDataBase) : BreedsRepository {
-
-	private val breedDao: BreedsDao = dataBase.breedsDao()
+class BreedsRepositoryImpl @Inject constructor(
+	private val api: CatsApi,
+	private val breedDao: BreedsDao,
+	private val mediator: BreedsRemoteMediator
+) : BreedsRepository {
 
 	@OptIn(ExperimentalPagingApi::class)
 	override fun getBreedsPaged(): Flow<PagingData<Breed>> = Pager(
@@ -29,7 +33,7 @@ class BreedsRepositoryImpl @Inject constructor(private val api: CatsApi, private
 			pageSize = 20,
 			prefetchDistance = 30
 		),
-		remoteMediator = BreedsRemoteMediator(api, dataBase),
+		remoteMediator = mediator,
 		pagingSourceFactory = { breedDao.getPagedBreeds() }
 	).flow.map { pagingData ->
 		pagingData.map { entity -> entity.toBreed() }
@@ -37,10 +41,8 @@ class BreedsRepositoryImpl @Inject constructor(private val api: CatsApi, private
 
 	override suspend fun searchBreeds(query: String): Resource<List<Breed>> = try {
 		val remote = api.searchBreeds(query)
-		val localFavs = breedDao.getAllFavourite()
-		val entities = remote.map { remote ->
-			remote.toEntity(localFavs.any { it.id == remote.id })
-		}
+		val localFavs = breedDao.getAllFavourite().first().map { it.id }.toSet()
+		val entities = remote.map { it.toEntity(it.id in localFavs) }
 		breedDao.insertAll(entities)
 		Resource.Success(entities.map { it.toBreed() })
 	} catch (e: Exception) {
@@ -64,11 +66,23 @@ class BreedsRepositoryImpl @Inject constructor(private val api: CatsApi, private
 		} ?: UiText.StringResource(R.string.error_message)
 	)
 
-	override suspend fun getAllFavourite(): Resource<List<Breed>> = try {
-		Resource.Success(breedDao.getAllFavourite().map { it.toBreed() })
-	} catch (e: Exception) {
-		Timber.e(e)
-		getErrorMessage(e)
+	override fun getAllFavourite(): Flow<State<List<Breed>>> = flow {
+		try {
+			breedDao.getAllFavourite()
+				.map { list -> list.map { it.toBreed() } }
+				.collect { breeds ->
+					emit(State.Success(breeds))
+				}
+		} catch (e: Exception) {
+			Timber.e(e)
+			emit(
+				State.Error(
+					e.localizedMessage?.let {
+						UiText.DynamicString(it)
+					} ?: UiText.StringResource(R.string.error_message)
+				)
+			)
+		}
 	}
 
 	override suspend fun toggleFavourite(id: String, isFavourite: Boolean): Resource<Breed> {
